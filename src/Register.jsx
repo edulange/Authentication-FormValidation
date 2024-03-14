@@ -25,28 +25,37 @@ const Register = () => {
 	const [errMsg, setErrMsg] = useState('')
 	const [success, setSuccess] = useState(false)
 
-	useEffect(() => { //para colocar o foco no user quando o componente é renderizado
-		userRef.current.focus()
-	}, []) 
+	useEffect(() => {
+		//para colocar o foco no user quando o componente é renderizado
+		//userRef.current.focus()
+	}, [])
 
-    useEffect(() => {
-        const result = USER_REGEX.test(user)
-        console.log('result :>> ', result);
-        console.log('user :>> ', user);
-        setValidName(result)
-    }, [user]) //toda vez que o user mudar, ele vai verificar a validação.
+	useEffect(() => {
+		const result = USER_REGEX.test(user)
+		console.log('result from user :>> ', result)
+		console.log('user :>> ', user)
+		setValidName(result)
+	}, [user]) //toda vez que o user mudar, ele vai verificar a validação.
 
-    useEffect(() => {
-        const result = PWD_REGEX.test(pwd)
-        console.log('result :>> ', result);
-        console.log('pwd :>> ', pwd);
-        setValidPwd(result)
-        const match = pwd === matchPwd
-        setValidMatch(match)
-    }, [pwd, matchPwd])
+	useEffect(() => {
+		const result = PWD_REGEX.test(pwd)
+		console.log('result from pwd :>> ', result)
+		console.log('pwd :>> ', pwd)
+		setValidPwd(result)
+		const match = pwd === matchPwd
+		setValidMatch(match)
+	}, [pwd, matchPwd])
 
-	return <div>Register</div>
+	useEffect(() => {
+		//ao ser alterado o user pwd e matchpwd vai limpar o setErrMsg pq o usuario já visualizou a mensagem.
+		setErrMsg('')
+	}, [user, pwd, matchPwd])
+
+	return (
+	<section>
+		<p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
+	</section>
+	)
 }
 
 export default Register
-https://youtu.be/brcHK3P6ChQ?si=u8ewJOKZDmX-L3zq&t=509
